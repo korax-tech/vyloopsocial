@@ -152,9 +152,10 @@ async function moderatePost(id){const reason=prompt('Reason for removal');if(!re
 let authIsSignup = false;
 
 function localDateInputValue(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  // Supabase CURRENT_DATE is evaluated in UTC; use the same calendar day in the browser.
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
   return year + '-' + month + '-' + day;
 }
 
@@ -171,8 +172,9 @@ function validateBirthDate(value) {
   if (!value) return { ok: false, message: 'Date of birth is required. VYLOOP SOCIAL is for adults aged 18 and over.' };
   const birth = parseBirthDateOnly(value);
   if (!birth) return { ok: false, message: 'Enter a valid date of birth.' };
-  const today = parseBirthDateOnly(localDateInputValue(new Date()));
-  if (value > localDateInputValue(new Date())) return { ok: false, message: 'Date of birth cannot be in the future.' };
+  const todayValue = localDateInputValue(new Date());
+  const today = parseBirthDateOnly(todayValue);
+  if (value > todayValue) return { ok: false, message: 'Date of birth cannot be in the future.' };
   let age = today.year - birth.year;
   if (today.month < birth.month || (today.month === birth.month && today.day < birth.day)) age -= 1;
   if (age < 18) return { ok: false, message: 'VYLOOP SOCIAL is for adults aged 18 and over. You must be 18 or older to create an account.' };

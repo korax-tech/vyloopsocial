@@ -1,8 +1,113 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090711"><title>VYLOOP SOCIAL</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090711"><title>VYLOOP SOCIAL</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script><style>
 :root{color-scheme:dark;--bg:#090711;--panel:#151121;--panel2:#1d1730;--line:#302544;--muted:#a89bbd;--text:#f8f4ff;--purple:#a34cff;--pink:#d34de7}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#26113f 0,transparent 36%),var(--bg);color:var(--text);font:15px Inter,system-ui,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:#211832;color:var(--text);padding:11px 15px;border-radius:13px}button.primary{background:linear-gradient(110deg,var(--purple),var(--pink));border:0;font-weight:750}button.active{background:#392052;border-color:#9c50e9}.muted{color:var(--muted)}.hidden{display:none!important}.app{max-width:1440px;margin:auto;padding:22px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:2px}.logo,.avatar{display:grid;place-items:center;background:linear-gradient(135deg,#9545f2,#d44de7);border-radius:18px;font-weight:900}.logo{width:52px;height:52px;font-size:25px}.layout{display:grid;grid-template-columns:235px minmax(0,1fr);gap:22px}.side,.panel,.post,.auth{background:linear-gradient(145deg,#171223,#100d19);border:1px solid var(--line);border-radius:24px}.side{padding:16px;height:max-content;position:sticky;top:15px}.nav{display:flex;flex-direction:column;gap:8px}.nav button{text-align:left;background:transparent;border-color:transparent}.nav button:hover,.nav button.active{background:#2a1b3e;border-color:#46305f}.main{min-width:0}.hero{padding:26px;margin-bottom:18px;background:linear-gradient(110deg,#281342,#111425);border:1px solid var(--line);border-radius:24px}.hero h1{margin:8px 0;font-size:clamp(26px,4vw,40px)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.panel{padding:20px;margin-bottom:18px}.stat{font-size:30px;font-weight:850}.row{display:flex;align-items:center;gap:12px}.between{justify-content:space-between}.avatar{width:48px;height:48px;flex:none;border-radius:50%;overflow:hidden}.avatar img{width:100%;height:100%;object-fit:cover}.field{width:100%;background:#0c0913;border:1px solid var(--line);border-radius:14px;padding:14px;color:var(--text);margin:7px 0 12px}.composer textarea{min-height:105px;resize:vertical}.post{padding:20px;margin:14px 0}.postmedia{width:100%;max-height:560px;object-fit:contain;border-radius:15px;margin-top:12px;background:#07060a}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.pill{border:1px solid var(--line);border-radius:99px;padding:6px 10px;color:var(--muted);font-size:12px}.profilecover{height:170px;background:linear-gradient(120deg,#512080,#161629);border-radius:18px;overflow:hidden}.profilecover img{width:100%;height:100%;object-fit:cover}.profilehead{display:flex;gap:16px;align-items:end;margin:-42px 0 15px 18px}.profilehead .avatar{width:92px;height:92px;border:4px solid #151121}.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.thumbs img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}.adminwrap{display:grid;grid-template-columns:220px 1fr;gap:18px}.adminnav{background:#0c0a12;border:1px solid var(--line);padding:12px;border-radius:20px}.adminnav button{display:block;width:100%;text-align:left;margin:5px 0}.admincontent{min-width:0}.table{width:100%;border-collapse:collapse}.table td,.table th{padding:12px;border-bottom:1px solid var(--line);text-align:left}.auth{max-width:470px;margin:8vh auto;padding:28px}.tag{color:#d8aaff;font-size:12px;letter-spacing:2px;font-weight:800}.mobilebar{display:none}@media(max-width:850px){.app{padding:14px}.layout{grid-template-columns:1fr}.side{position:static}.nav{display:grid;grid-template-columns:repeat(3,1fr)}.nav button{text-align:center;padding:10px 4px;font-size:12px}.grid{grid-template-columns:repeat(2,1fr)}.adminwrap{grid-template-columns:1fr}.adminnav{display:grid;grid-template-columns:repeat(2,1fr)}.adminnav button{font-size:12px}.top{align-items:flex-start}}@media(max-width:480px){.grid{grid-template-columns:1fr}.hero{padding:20px}.panel,.post{padding:15px}.app{padding:10px}}
-</style></head><body><div id="auth" class="auth"><div class="brand"><div class="logo">V</div><div>VYLOOP SOCIAL<div class="muted" style="font-size:10px;letter-spacing:3px">YOUR WORLD. YOUR LOOP.</div></div></div><h2 id="authTitle">Welcome back</h2><p class="muted">Connect, create and share.</p><div id="signupFields" class="hidden"><input id="display" class="field" placeholder="Display name"><input id="username" class="field" placeholder="Username"><label class="muted">Date of birth (18+)</label><input id="dob" type="date" class="field"></div><input id="email" type="email" class="field" placeholder="Email"><input id="password" type="password" class="field" placeholder="Password"><button class="primary" style="width:100%" id="authGo">Log in</button><p class="muted" id="authMsg"></p><button id="authSwitch">Create account</button></div>
-<div id="app" class="app hidden"><header class="top"><div class="brand"><div class="logo">V</div><div>VYLOOP SOCIAL<div class="muted" style="font-size:10px;letter-spacing:3px">YOUR WORLD. YOUR LOOP.</div></div></div><div class="row"><span id="who" class="muted"></span><button id="moreMenu">⋮</button><button id="logout">Log out ↗</button></div></header><div class="layout"><aside class="side"><div class="row" style="margin:5px 4px 18px"><div class="avatar" id="sideAvatar">V</div><div><b id="sideName">Your loop</b><div class="muted" id="sideHandle"></div></div></div><nav class="nav" id="nav"><button data-page="feed" class="active">⌂ Home feed</button><button data-page="discover">◎ Discover</button><button data-page="reels">▷ Videos</button><button data-page="communities">♧ Communities</button><button data-page="market">▦ Marketplace</button><button data-page="messages">✉ Messages</button><button data-page="notifications">♢ Notifications</button><button data-page="profile">◉ My profile</button><button data-page="settings">⚙ Settings</button></nav><p class="muted" style="font-size:12px;margin:22px 5px">Be kind. Keep it real.</p></aside><div id="moreOptions" class="hidden panel" style="position:absolute;right:15px;top:75px;z-index:100"><button onclick="go(&quot;profile&quot;)">My profile</button><button onclick="go(&quot;settings&quot;)">Settings</button><button onclick="go(&quot;messages&quot;)">Messages</button><button id="menuAdmin" class="hidden" onclick="go(&quot;admin&quot;)">Admin Control Hub</button><button onclick="document.getElementById(&quot;logout&quot;).click()">Log out</button></div><main class="main"><section class="hero"><div class="tag">WELCOME TO YOUR COMMUNITY</div><h1 id="pageTitle">Your loop</h1><div class="muted">Your world. Your loop. Connect with people and share what matters.</div></section><div id="view"></div></main></div></div>
+
+/* VYLOOP auth refresh: violet + cyan, responsive, with a persisted light/dark choice. */
+:root{--cyan:#39d7e9;--auth-glow:#9b55ff;--auth-card:#151020;--auth-card-border:#3a2b52}
+.auth-shell{min-height:100vh;max-width:1320px;margin:0 auto;padding:clamp(20px,4vw,58px);display:grid;grid-template-columns:minmax(0,1.15fr) minmax(340px,.85fr);gap:clamp(28px,6vw,88px);align-items:center;position:relative;overflow:hidden}
+.auth-showcase{position:relative;isolation:isolate;padding:22px 0}
+.auth-brand{position:relative;z-index:2;margin-bottom:clamp(50px,8vh,100px)}
+.brand-sub{font-size:10px;letter-spacing:3px}
+.auth-kicker{display:inline-flex;align-items:center;gap:9px;border:1px solid #50356c;background:#1b1327aa;color:#d8b9ff;border-radius:999px;padding:9px 13px;font-size:10px;font-weight:800;letter-spacing:1.6px}
+.live-dot,.auth-chip i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}
+.auth-showcase h1{font-size:clamp(43px,6.2vw,78px);line-height:1.02;letter-spacing:-3px;margin:24px 0 18px;font-weight:900}
+.auth-showcase h1 span{background:linear-gradient(100deg,#c18cff 0%,#9c69ff 45%,#42d9e8 100%);background-clip:text;-webkit-background-clip:text;color:transparent}
+.auth-lede{max-width:570px;color:#b7a9c9;font-size:16px;line-height:1.8}
+.auth-benefits{display:grid;gap:15px;margin-top:38px;max-width:550px}
+.auth-benefits>div{display:flex;align-items:center;gap:14px;padding:13px 15px;border:1px solid #342640;border-radius:15px;background:#130f1dcc;backdrop-filter:blur(10px)}
+.auth-benefits>div>span{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:#2a1a40;color:#d7a9ff;font-size:20px}
+.auth-benefits b,.auth-benefits small{display:block}.auth-benefits b{font-size:13px}.auth-benefits small{color:#9f91b1;font-size:11px;margin-top:4px}
+.auth-orbit{position:absolute;z-index:-1;border:1px solid #8c52c933;border-radius:50%;pointer-events:none}
+.orbit-one{width:390px;height:390px;right:-145px;top:60px;box-shadow:0 0 100px #7137ad22}
+.orbit-two{width:260px;height:260px;right:-80px;top:125px;border-color:#39d7e922}
+.auth-card{position:relative;z-index:1;width:100%;max-width:490px;justify-self:end;padding:clamp(22px,3.5vw,36px);border:1px solid var(--auth-card-border);border-radius:26px;background:linear-gradient(150deg,#1a1326f5,#100d19f5);box-shadow:0 26px 90px #0008,0 0 55px #8b46d51a}
+.auth-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px}
+.auth-chip{display:inline-flex;align-items:center;gap:9px;padding:8px 11px;border-radius:999px;background:#251735;color:#cba2f8;font-size:9px;font-weight:850;letter-spacing:1.5px}
+.auth-chip i{display:inline-block}
+.theme-toggle{width:39px;height:39px;padding:0;border-radius:12px;border:1px solid #463456;background:#20172b;color:#e6d8f4;font-size:17px}
+.auth-card-heading .tag{color:#b98bff}.auth-card-heading h2{font-size:30px;letter-spacing:-.8px;margin:9px 0 6px}.auth-card-heading p{font-size:13px;margin:0 0 23px}
+.auth-form{display:grid;gap:13px}.auth-field-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.auth-label{display:block;color:#d6c9e2;font-size:11px;font-weight:700;letter-spacing:.2px}
+.auth-input{display:block;width:100%;min-width:0;margin-top:7px;padding:13px 14px;border:1px solid #3b2d4d;border-radius:12px;background:#0d0a14;color:#faf7ff;outline:none;transition:border-color .18s,box-shadow .18s}
+.auth-input:focus{border-color:#a66cff;box-shadow:0 0 0 3px #a66cff24}
+.auth-input::placeholder{color:#756984}
+.auth-input[type=date]{color-scheme:dark}
+.field-help{display:block;margin-top:7px;color:#9d8eae;font-size:10px;font-weight:400;line-height:1.5}
+.age-pill{display:inline-block;margin-left:6px;padding:3px 7px;border-radius:999px;background:#16333a;color:#7ce8f0;font-size:9px;letter-spacing:1px}
+.privacy-note{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1px solid #254b52;border-radius:12px;background:#10232980;color:#b9d9df}
+.privacy-note>span{font-size:16px}.privacy-note p{margin:0;font-size:10px;line-height:1.6}.privacy-note b{color:#8de9ee}
+.auth-submit{width:100%;padding:14px 16px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 10px 24px #8b43db38}
+.auth-submit span{font-size:18px;line-height:12px}
+.auth-link{justify-self:end;padding:3px 0;border:0;background:none;color:#c9a0ff;font-size:11px}
+.auth-message{min-height:22px;margin:10px 0 0;color:#9deaf0;font-size:12px;line-height:1.55}
+.auth-switch-row{display:flex;align-items:center;gap:12px;margin:14px 0}.auth-switch-row span{height:1px;flex:1;background:#33263e}.auth-switch-row small{color:#857892;font-size:9px;letter-spacing:1.5px}
+.auth-switch{width:100%;background:#21182c;border:1px solid #4b3760;border-radius:12px;color:#e8d9f7;padding:13px;font-weight:750}
+.auth-legal{margin:18px 0 0;color:#82758f;font-size:10px;line-height:1.6;text-align:center}.auth-legal b{color:#c69bff}
+#themeToggleApp{border:1px solid var(--line);background:#211832;color:var(--text);padding:8px 11px;border-radius:11px}
+:root[data-theme="light"]{color-scheme:light;--bg:#f5f3fa;--panel:#fff;--panel2:#f0ebf8;--line:#e1d9ed;--muted:#706780;--text:#211a30;--purple:#7439cf;--pink:#bd46d1}
+:root[data-theme="light"] body{background:radial-gradient(ellipse at 12% 0%,#e8d9ff 0,transparent 38%),#f6f4fb;color:#211a30}
+:root[data-theme="light"] .auth-showcase h1{color:#211a30}
+:root[data-theme="light"] .auth-lede{color:#665d75}
+:root[data-theme="light"] .auth-benefits>div{background:#ffffffc9;border-color:#e5dced}
+:root[data-theme="light"] .auth-benefits b{color:#261d38}
+:root[data-theme="light"] .auth-benefits small{color:#746a82}
+:root[data-theme="light"] .auth-card{background:#fff;border-color:#e1d7ed;box-shadow:0 22px 65px #432b681c}
+:root[data-theme="light"] .auth-card-heading h2{color:#241b34}
+:root[data-theme="light"] .auth-label{color:#4c435c}
+:root[data-theme="light"] .auth-input{background:#fbfaff;border-color:#ddd3eb;color:#211a30}
+:root[data-theme="light"] .auth-input::placeholder{color:#9a91a8}
+:root[data-theme="light"] .auth-input[type=date]{color-scheme:light}
+:root[data-theme="light"] .auth-switch{background:#f3edf9;border-color:#dfd2ed;color:#35244b}
+:root[data-theme="light"] .auth-chip{background:#f1e8fb;color:#6c36aa}
+:root[data-theme="light"] .theme-toggle{background:#f4eff9;color:#4a3565;border-color:#e0d5ed}
+:root[data-theme="light"] .side,:root[data-theme="light"] .panel,:root[data-theme="light"] .post{background:#fff;border-color:#e3dcec;color:#211a30}
+:root[data-theme="light"] .hero{background:linear-gradient(110deg,#eee4fa,#e7f7fa);border-color:#e1d8ec;color:#211a30}
+:root[data-theme="light"] .field{background:#fff;border-color:#ddd3eb;color:#211a30}
+:root[data-theme="light"] .nav button{color:#443953}
+:root[data-theme="light"] .nav button:hover,:root[data-theme="light"] .nav button.active{background:#eee5f8;border-color:#ddc9f2}
+:root[data-theme="light"] button:not(.primary){background:#f4eff9;color:#352b46;border-color:#e0d7eb}
+:root[data-theme="light"] .muted{color:#766c83}
+@media(max-width:900px){.auth-shell{grid-template-columns:1fr;gap:18px;max-width:620px}.auth-showcase{padding:8px 0}.auth-brand{margin-bottom:28px}.auth-showcase h1{font-size:clamp(40px,9vw,58px)}.auth-benefits{display:none}.auth-orbit{display:none}.auth-card{justify-self:stretch;max-width:none}.auth-lede{font-size:14px;margin-bottom:12px}}
+@media(max-width:520px){.auth-shell{padding:18px 14px 28px;gap:12px}.auth-brand{margin-bottom:23px}.auth-showcase h1{font-size:42px;letter-spacing:-1.8px;margin:17px 0 10px}.auth-lede{font-size:12px;line-height:1.6}.auth-kicker{font-size:8px}.auth-card{padding:21px 17px;border-radius:21px}.auth-card-heading h2{font-size:26px}.auth-field-grid{grid-template-columns:1fr;gap:0}}
+
+</style></head><body><div id="auth" class="auth-shell">
+<section class="auth-showcase">
+  <div class="brand auth-brand"><div class="logo">V</div><div>VYLOOP SOCIAL<div class="muted brand-sub">YOUR WORLD. YOUR LOOP.</div></div></div>
+  <div class="auth-kicker"><span class="live-dot"></span> THE SOCIAL SPACE FOR YOUR PEOPLE</div>
+  <h1>Find your people.<br><span>Find your loop.</span></h1>
+  <p class="auth-lede">A place to connect, create and discover what matters. Share your world, meet your community and keep the conversation moving.</p>
+  <div class="auth-benefits">
+    <div><span>✦</span><div><b>Real connections</b><small>Discover people and communities that feel like you.</small></div></div>
+    <div><span>↗</span><div><b>Your space to create</b><small>Share updates, photos and moments with your loop.</small></div></div>
+    <div><span>◈</span><div><b>Adults-only community</b><small>VYLOOP SOCIAL is for members aged 18 and over.</small></div></div>
+  </div>
+  <div class="auth-orbit orbit-one"></div><div class="auth-orbit orbit-two"></div>
+</section>
+<section class="auth-card">
+  <div class="auth-card-top"><span class="auth-chip">MEMBER ACCESS <i></i></span><button type="button" id="themeToggle" class="theme-toggle" aria-label="Switch colour theme">☀</button></div>
+  <div class="auth-card-heading"><div class="tag">WELCOME TO YOUR LOOP</div><h2 id="authTitle">Welcome back</h2><p id="authSubtitle" class="muted">Log in to catch up with your community.</p></div>
+  <form id="authForm" class="auth-form">
+    <div id="signupFields" class="hidden">
+      <div class="auth-field-grid">
+        <label class="auth-label">Display name<input id="display" class="auth-input" type="text" placeholder="How should we call you?" autocomplete="name" maxlength="80"></label>
+        <label class="auth-label">Username<input id="username" class="auth-input" type="text" placeholder="your_username" autocomplete="username" minlength="3" maxlength="24" autocapitalize="none"></label>
+      </div>
+      <label class="auth-label">Date of birth <span class="age-pill">18+</span><input id="dob" type="date" class="auth-input" autocomplete="bday" aria-describedby="dobHelp"><small id="dobHelp" class="field-help">You must be 18 or older to create an account.</small></label>
+      <div class="privacy-note"><span>🔒</span><p><b>Your birth date stays private.</b> It is used only for age eligibility and stored in a private database table. It is not added to your public profile.</p></div>
+    </div>
+    <label class="auth-label">Email address<input id="email" type="email" class="auth-input" placeholder="you@example.com" autocomplete="email" autocapitalize="none" required></label>
+    <label class="auth-label">Password<input id="password" type="password" class="auth-input" placeholder="Enter your password" autocomplete="current-password" required></label>
+    <div id="confirmWrap" class="hidden"><label class="auth-label">Confirm password<input id="confirmPassword" type="password" class="auth-input" placeholder="Enter your password again" autocomplete="new-password"></label></div>
+    <button class="primary auth-submit" type="submit" id="authGo">Log in <span>→</span></button>
+    <button type="button" id="authForgot" class="auth-link">Forgot password?</button>
+  </form>
+  <p class="auth-message" id="authMsg" role="status" aria-live="polite"></p>
+  <div class="auth-switch-row"><span></span><small>OR</small><span></span></div>
+  <button type="button" id="authSwitch" class="auth-switch">Create account</button>
+  <p class="auth-legal">By continuing, you agree to keep VYLOOP respectful and safe. <b>18+ only.</b></p>
+</section>
+</div>
+<div id="app" class="app hidden"><header class="top"><div class="brand"><div class="logo">V</div><div>VYLOOP SOCIAL<div class="muted" style="font-size:10px;letter-spacing:3px">YOUR WORLD. YOUR LOOP.</div></div></div><div class="row"><span id="who" class="muted"></span><button id="themeToggleApp" type="button" aria-label="Switch colour theme">☀</button><button id="moreMenu">⋮</button><button id="logout">Log out ↗</button></div></header><div class="layout"><aside class="side"><div class="row" style="margin:5px 4px 18px"><div class="avatar" id="sideAvatar">V</div><div><b id="sideName">Your loop</b><div class="muted" id="sideHandle"></div></div></div><nav class="nav" id="nav"><button data-page="feed" class="active">⌂ Home feed</button><button data-page="discover">◎ Discover</button><button data-page="reels">▷ Videos</button><button data-page="communities">♧ Communities</button><button data-page="market">▦ Marketplace</button><button data-page="messages">✉ Messages</button><button data-page="notifications">♢ Notifications</button><button data-page="profile">◉ My profile</button><button data-page="settings">⚙ Settings</button></nav><p class="muted" style="font-size:12px;margin:22px 5px">Be kind. Keep it real.</p></aside><div id="moreOptions" class="hidden panel" style="position:absolute;right:15px;top:75px;z-index:100"><button onclick="go(&quot;profile&quot;)">My profile</button><button onclick="go(&quot;settings&quot;)">Settings</button><button onclick="go(&quot;messages&quot;)">Messages</button><button id="menuAdmin" class="hidden" onclick="go(&quot;admin&quot;)">Admin Control Hub</button><button onclick="document.getElementById(&quot;logout&quot;).click()">Log out</button></div><main class="main"><section class="hero"><div class="tag">WELCOME TO YOUR COMMUNITY</div><h1 id="pageTitle">Your loop</h1><div class="muted">Your world. Your loop. Connect with people and share what matters.</div></section><div id="view"></div></main></div></div>
 <script>
 const SUPABASE_URL='https://nsuacflxwjwdrpmmdsbd.supabase.co';const SUPABASE_KEY='sb_publishable_K1oYaIddM8_KnI4umSL3hw_BXmfQ-Fd';const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);let user=null,me=null,adminRoles=[],page='feed',selectedProfile=null,posts=[];
 const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const initials=s=>(s||'V').trim().slice(0,1).toUpperCase();const avatar=(p,size='')=>'<div class="avatar '+size+'">'+(p?.avatar_url?'<img src="'+esc(p.avatar_url)+'">':initials(p?.display_name||p?.username))+'</div>';const verifiedBadge=p=>p?.is_verified?'<span title="Verified account" style="display:inline-grid;place-items:center;background:#2699f5;color:white;width:17px;height:17px;border-radius:50%;font-size:12px;font-weight:900;margin-left:4px">✓</span>':'';async function adminAction(payload){const {data:{session}}=await db.auth.getSession();const res=await fetch(SUPABASE_URL+'/functions/v1/admin-account-tools',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,'apikey':SUPABASE_KEY},body:JSON.stringify(payload)});const out=await res.json();if(!res.ok)throw new Error(out.error||'Admin action failed');return out;}
@@ -43,6 +148,177 @@ async function toggleVerified(id,verified){try{await adminAction({action:'set_ve
 async function createBotAccount(e){e.preventDefault();const name=$('botName').value.trim(),username=$('botUser').value.trim(),email=$('botEmail').value.trim(),dob=$('botDob').value;const bytes=new Uint8Array(24);crypto.getRandomValues(bytes);const password=Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('')+'Aa!';try{await adminAction({action:'create_bot',display_name:name,username,email,date_of_birth:dob,password});notice('Bot account created. Save these credentials securely now. Email: '+email+' Password: '+password);adminSection('bots')}catch(err){notice(err.message)}}
 async function resolveReport(id){const {error}=await db.from('reports').update({status:'resolved',reviewed_at:new Date().toISOString()}).eq('id',id);notice(error?error.message:'Report updated');adminSection('reports')}
 async function moderatePost(id){const reason=prompt('Reason for removal');if(!reason)return;const {error}=await db.from('posts').update({deleted_at:new Date().toISOString()}).eq('id',id);if(error)notice(error.message);else{await db.from('moderation_actions').insert({moderator_id:user.id,target_type:'post',target_id:id,action:'remove_content',reason});notice('Post removed');adminSection('content')}}
-async function authMode(signup){$('signupFields').classList.toggle('hidden',!signup);$('authTitle').textContent=signup?'Create your VYLOOP account':'Welcome back';$('authGo').textContent=signup?'Create account':'Log in';$('authSwitch').textContent=signup?'I already have an account':'Create account';$('authSwitch').onclick=()=>authMode(!signup);$('authGo').onclick=async()=>{const email=$('email').value,password=$('password').value;if(signup){const dob=$('dob').value;if(!dob)return $('authMsg').textContent='Date of birth is required.';const age=(Date.now()-new Date(dob).getTime())/31557600000;if(age<18)return $('authMsg').textContent='VYLOOP is 18+ only.';const {error}=await db.auth.signUp({email,password,options:{data:{display_name:$('display').value,username:$('username').value,date_of_birth:dob}}});$('authMsg').textContent=error?.message||'Check your email to confirm your account.'}else{const {error}=await db.auth.signInWithPassword({email,password});$('authMsg').textContent=error?.message||'Signing in…'}}}
+
+let authIsSignup = false;
+
+function localDateInputValue(date) {
+  // Supabase CURRENT_DATE is evaluated in UTC; use the same calendar day in the browser.
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  return year + '-' + month + '-' + day;
+}
+
+function parseBirthDateOnly(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+  const parts = value.split('-').map(Number);
+  const [year, month, day] = parts;
+  const parsed = new Date(Date.UTC(year, month - 1, day));
+  if (parsed.getUTCFullYear() !== year || parsed.getUTCMonth() !== month - 1 || parsed.getUTCDate() !== day) return null;
+  return { year, month, day };
+}
+
+function validateBirthDate(value) {
+  if (!value) return { ok: false, message: 'Date of birth is required. VYLOOP SOCIAL is for adults aged 18 and over.' };
+  const birth = parseBirthDateOnly(value);
+  if (!birth) return { ok: false, message: 'Enter a valid date of birth.' };
+  const todayValue = localDateInputValue(new Date());
+  const today = parseBirthDateOnly(todayValue);
+  if (value > todayValue) return { ok: false, message: 'Date of birth cannot be in the future.' };
+  let age = today.year - birth.year;
+  if (today.month < birth.month || (today.month === birth.month && today.day < birth.day)) age -= 1;
+  if (age < 18) return { ok: false, message: 'VYLOOP SOCIAL is for adults aged 18 and over. You must be 18 or older to create an account.' };
+  return { ok: true, age };
+}
+
+function applyVyloopTheme(theme) {
+  const next = theme === 'light' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem('vyloop-theme', next); } catch (_) {}
+  const glyph = next === 'dark' ? '☀' : '☾';
+  if ($('themeToggle')) $('themeToggle').textContent = glyph;
+  if ($('themeToggleApp')) $('themeToggleApp').textContent = glyph;
+}
+
+function toggleVyloopTheme() {
+  applyVyloopTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
+}
+
+function authMode(signup) {
+  authIsSignup = Boolean(signup);
+  $('signupFields').classList.toggle('hidden', !authIsSignup);
+  $('confirmWrap').classList.toggle('hidden', !authIsSignup);
+  $('authForgot').classList.toggle('hidden', authIsSignup);
+  $('authTitle').textContent = authIsSignup ? 'Create your account' : 'Welcome back';
+  $('authSubtitle').textContent = authIsSignup
+    ? 'Join the community. It takes less than a minute.'
+    : 'Log in to catch up with your community.';
+  $('authGo').innerHTML = authIsSignup ? 'Create account <span>→</span>' : 'Log in <span>→</span>';
+  $('authSwitch').textContent = authIsSignup ? 'I already have an account' : 'Create account';
+  $('display').required = authIsSignup;
+  $('username').required = authIsSignup;
+  $('dob').required = authIsSignup;
+  $('confirmPassword').required = authIsSignup;
+  $('password').minLength = authIsSignup ? 8 : 0;
+  $('password').autocomplete = authIsSignup ? 'new-password' : 'current-password';
+  $('dob').max = localDateInputValue(new Date());
+  $('authMsg').textContent = '';
+}
+
+async function handleAuthSubmit(event) {
+  event.preventDefault();
+  const button = $('authGo');
+  const originalLabel = authIsSignup ? 'Create account' : 'Log in';
+  button.disabled = true;
+  $('authMsg').textContent = authIsSignup ? 'Checking your details…' : 'Signing you in…';
+
+  try {
+    const email = $('email').value.trim();
+    const password = $('password').value;
+    if (!email || !$('email').checkValidity()) {
+      $('authMsg').textContent = 'Enter a valid email address.';
+      $('email').focus();
+      return;
+    }
+
+    if (authIsSignup) {
+      const displayName = $('display').value.trim();
+      const username = $('username').value.trim().replace(/^@/, '');
+      const confirmPassword = $('confirmPassword').value;
+      const dob = $('dob').value;
+
+      if (displayName.length < 2) {
+        $('authMsg').textContent = 'Enter a display name with at least 2 characters.';
+        $('display').focus();
+        return;
+      }
+      if (!/^[A-Za-z0-9_]{3,24}$/.test(username)) {
+        $('authMsg').textContent = 'Your username must be 3–24 characters using letters, numbers or underscores.';
+        $('username').focus();
+        return;
+      }
+      if (password.length < 8) {
+        $('authMsg').textContent = 'Choose a password with at least 8 characters.';
+        $('password').focus();
+        return;
+      }
+      if (password !== confirmPassword) {
+        $('authMsg').textContent = 'Your passwords do not match.';
+        $('confirmPassword').focus();
+        return;
+      }
+
+      const birthCheck = validateBirthDate(dob);
+      if (!birthCheck.ok) {
+        $('authMsg').textContent = birthCheck.message;
+        $('dob').focus();
+        return;
+      }
+
+      const { data, error } = await db.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            display_name: displayName,
+            username,
+            date_of_birth: dob
+          }
+        }
+      });
+      if (error) throw error;
+
+      // Do not retain the private value in this page's in-memory Auth user object.
+      if (data?.user?.user_metadata) delete data.user.user_metadata.date_of_birth;
+      $('dob').value = '';
+      if (data?.session) {
+        $('authMsg').textContent = 'Your VYLOOP account is ready. Opening your loop…';
+        window.location.reload();
+        return;
+      }
+      $('password').value = '';
+      $('confirmPassword').value = '';
+      $('authMsg').textContent = 'Signup accepted. Check your email for the confirmation link before logging in.';
+    } else {
+      const { error } = await db.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      $('authMsg').textContent = 'Signed in. Opening your loop…';
+      window.location.reload();
+      return;
+    }
+  } catch (error) {
+    $('authMsg').textContent = error?.message || 'We could not complete that request. Please try again.';
+  } finally {
+    button.disabled = false;
+    button.innerHTML = originalLabel === 'Create account' ? 'Create account <span>→</span>' : 'Log in <span>→</span>';
+  }
+}
+
+$('authForm').addEventListener('submit', handleAuthSubmit);
+$('authSwitch').addEventListener('click', () => authMode(!authIsSignup));
+$('themeToggle').addEventListener('click', toggleVyloopTheme);
+$('themeToggleApp').addEventListener('click', toggleVyloopTheme);
+$('authForgot').addEventListener('click', async () => {
+  const email = $('email').value.trim();
+  if (!email || !$('email').checkValidity()) {
+    $('authMsg').textContent = 'Enter your email address first, then choose forgot password.';
+    $('email').focus();
+    return;
+  }
+  const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin });
+  $('authMsg').textContent = error ? error.message : 'Password reset instructions have been sent if that email has an account.';
+});
+
+try { applyVyloopTheme(localStorage.getItem('vyloop-theme') || 'dark'); } catch (_) { applyVyloopTheme('dark'); }
 async function boot(){const {data:{session}}=await db.auth.getSession();if(!session){authMode(false);return}user=session.user;$('auth').classList.add('hidden');$('app').classList.remove('hidden');await loadMe();go('feed');db.auth.onAuthStateChange((_e,s)=>{if(!s)location.reload()})}boot();
 </script><script src="/chat.js"></script></body></html>

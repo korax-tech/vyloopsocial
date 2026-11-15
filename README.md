@@ -23,3 +23,8 @@ Run `supabase/tests/18_plus_birth_date_validation.sql` against the linked projec
 This repository is a static Cloudflare Pages site. Upload the repository root as Pages assets or connect the repository to Cloudflare Pages. The root contains `index.html`, `chat.js`, `_headers` and `_redirects`.
 
 Before public launch, test a real signup with an adult test email, confirm the email flow, sign in, and verify the deployed Pages domain and Auth redirect URLs in Supabase.
+
+
+### Birth-date response privacy
+
+The DOB validation now runs in a `BEFORE INSERT` trigger. It writes the birth date to `private.user_birth_dates` using a deferred foreign key, then removes `date_of_birth` from `NEW.raw_user_meta_data` before Auth's insert result is formed. A separate `AFTER INSERT` trigger creates the public profile without DOB. The regression SQL checks trigger timing, private-schema grants, the public profile schema, and absence of DOB from persisted Auth metadata.

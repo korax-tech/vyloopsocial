@@ -1,6 +1,6 @@
 -- Run with the Supabase SQL editor or psql against the VYLOOP project.
 -- This test exercises the same private validator called by the auth.users trigger.
--- It creates no Auth users and does not modify application data.
+-- It leaves no Auth users behind and does not modify application data.
 
 do $test$
 declare
@@ -150,3 +150,62 @@ begin
   end if;
 end;
 $privacy$;
+
+
+-- Exercise the actual auth.users BEFORE trigger with rejected signup attempts.
+-- Each failed INSERT is rolled back by its PL/pgSQL exception subtransaction.
+do $trigger_rejection$
+declare
+  v_id uuid;
+  v_email text;
+  v_error text;
+  test_case record;
+begin
+  for test_case in
+    select 'underage'::text as label,
+           ((current_date - interval '17 years')::date)::text as dob,
+           '18 and over'::text as expected
+    union all
+    select 'missing', null::text, 'valid date of birth is required'
+    union all
+    select 'malformed', 'not-a-date', 'valid date of birth is required'
+    union all
+    select 'impossible', '2026-02-31', 'valid date of birth is required'
+    union all
+    select 'future', (current_date + 1)::text, 'future'
+  loop
+    v_id := gen_random_uuid();
+    v_email := 'vyloop-negative-' || replace(v_id::text, '-', '') || '@example.invalid';
+
+    begin
+      insert into auth.users (
+        id, aud, role, email, encrypted_password,
+        raw_user_meta_data, raw_app_meta_data, created_at, updated_at
+      )
+      values (
+        v_id, 'authenticated', 'authenticated', v_email, '',
+        case
+          when test_case.label = 'missing' then jsonb_build_object('username', 'negativecase')
+          else jsonb_build_object('date_of_birth', test_case.dob, 'username', 'negativecase')
+        end,
+        '{}'::jsonb, now(), now()
+      );
+
+      raise exception 'TEST FAILURE: % signup was accepted', test_case.label;
+    exception when others then
+      get stacked diagnostics v_error = message_text;
+      if v_error like 'TEST FAILURE:%' then
+        raise;
+      end if;
+      if position(test_case.expected in lower(v_error)) = 0 then
+        raise exception 'TEST FAILED: % signup returned unexpected error: %', test_case.label, v_error;
+      end if;
+    end;
+
+    if exists (select 1 from auth.users where id = v_id)
+       or exists (select 1 from private.user_birth_dates where user_id = v_id) then
+      raise exception 'TEST FAILED: rejected % signup left persistent rows', test_case.label;
+    end if;
+  end loop;
+end;
+$trigger_rejection$;

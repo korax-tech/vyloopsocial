@@ -68,3 +68,85 @@ begin
   end;
 end;
 $test$;
+
+
+-- Assert the DOB hand-off is sanitized in a BEFORE INSERT trigger, so the Auth
+-- INSERT ... RETURNING row is already clean. The private FK is deferred only
+-- within the signup transaction; it still cascades on Auth-user deletion.
+do $privacy$
+declare
+  v_before_trigger_count integer;
+  v_after_profile_count integer;
+  v_fk_deferrable boolean;
+begin
+  select count(*) into v_before_trigger_count
+  from pg_trigger t
+  join pg_class c on c.oid = t.tgrelid
+  join pg_namespace n on n.oid = c.relnamespace
+  join pg_proc p on p.oid = t.tgfoid
+  join pg_namespace pn on pn.oid = p.pronamespace
+  where n.nspname = 'auth'
+    and c.relname = 'users'
+    and t.tgname = 'on_auth_user_created_vyloop'
+    and not t.tgisinternal
+    and (t.tgtype & 2) = 2
+    and (t.tgtype & 4) = 4
+    and pn.nspname = 'private'
+    and p.proname = 'handle_new_user';
+
+  if v_before_trigger_count <> 1 then
+    raise exception 'TEST FAILED: private DOB validation must run exactly once before Auth INSERT';
+  end if;
+
+  select count(*) into v_after_profile_count
+  from pg_trigger t
+  join pg_class c on c.oid = t.tgrelid
+  join pg_namespace n on n.oid = n.oid
+  join pg_proc p on p.oid = t.tgfoid
+  join pg_namespace pn on pn.oid = p.pronamespace
+  where n.nspname = 'auth'
+    and c.relname = 'users'
+    and t.tgname = 'on_auth_user_created_vyloop_profile'
+    and not t.tgisinternal
+    and (t.tgtype & 2) = 0
+    and (t.tgtype & 4) = 4
+    and pn.nspname = 'private'
+    and p.proname = 'handle_new_user_profile';
+
+  if v_after_profile_count <> 1 then
+    raise exception 'TEST FAILED: public profile creation must run after Auth INSERT';
+  end if;
+
+  select condeferrable into v_fk_deferrable
+  from pg_constraint
+  where conrelid = 'private.user_birth_dates'::regclass
+    and conname = 'user_birth_dates_user_id_fkey';
+
+  if not coalesce(v_fk_deferrable, false) then
+    raise exception 'TEST FAILED: private DOB FK must be deferrable for the BEFORE trigger';
+  end if;
+
+  if has_schema_privilege('anon', 'private', 'USAGE')
+     or has_schema_privilege('authenticated', 'private', 'USAGE')
+     or has_table_privilege('anon', 'private.user_birth_dates', 'SELECT')
+     or has_table_privilege('authenticated', 'private.user_birth_dates', 'SELECT') then
+    raise exception 'TEST FAILED: client roles can access the private DOB table';
+  end if;
+
+  if exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public'
+      and table_name = 'profiles'
+      and column_name = 'date_of_birth'
+  ) then
+    raise exception 'TEST FAILED: public profiles must not contain DOB';
+  end if;
+
+  if exists (
+    select 1 from auth.users
+    where coalesce(raw_user_meta_data, '{}'::jsonb) ? 'date_of_birth'
+  ) then
+    raise exception 'TEST FAILED: Auth metadata still contains DOB';
+  end if;
+end;
+$privacy$;

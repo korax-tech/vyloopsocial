@@ -18,6 +18,12 @@ The browser uses the Supabase publishable key only. Never place a service-role o
 
 Run `supabase/tests/18_plus_birth_date_validation.sql` against the linked project. It tests the private server-side validator without creating test Auth users or changing application data.
 
+Run the browser age/date regression suite with Node.js:
+
+```sh
+node --test tests/auth-validation.test.cjs
+```
+
 ## Deployment
 
 This repository is a static Cloudflare Pages site. Upload the repository root as Pages assets or connect the repository to Cloudflare Pages. The root contains `index.html`, `chat.js`, `_headers` and `_redirects`.

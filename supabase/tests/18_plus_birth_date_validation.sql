@@ -209,3 +209,62 @@ begin
   end loop;
 end;
 $trigger_rejection$;
+
+
+-- Exercise a successful adult signup through the real auth.users triggers.
+-- The INSERT ... RETURNING row must already have DOB removed, while the private
+-- row and profile are created in the same transaction. The test user is deleted.
+do $trigger_success$
+declare
+  v_id uuid := gen_random_uuid();
+  v_dob date := (current_date - interval '18 years')::date;
+  v_email text;
+  v_returned_metadata jsonb;
+  v_saved_dob date;
+  v_profile_count integer;
+begin
+  v_email := 'vyloop-positive-' || replace(v_id::text, '-', '') || '@example.invalid';
+
+  insert into auth.users (
+    id, aud, role, email, encrypted_password,
+    raw_user_meta_data, raw_app_meta_data, created_at, updated_at
+  )
+  values (
+    v_id, 'authenticated', 'authenticated', v_email, '',
+    jsonb_build_object(
+      'date_of_birth', v_dob::text,
+      'username', 'adulttest',
+      'display_name', 'VYLOOP DOB regression'
+    ),
+    '{}'::jsonb, now(), now()
+  )
+  returning raw_user_meta_data into v_returned_metadata;
+
+  if coalesce(v_returned_metadata, '{}'::jsonb) ? 'date_of_birth' then
+    raise exception 'TEST FAILED: successful Auth INSERT RETURNING exposed DOB metadata';
+  end if;
+
+  select date_of_birth into v_saved_dob
+  from private.user_birth_dates
+  where user_id = v_id;
+
+  if v_saved_dob is distinct from v_dob then
+    raise exception 'TEST FAILED: successful signup did not store the DOB in the private table';
+  end if;
+
+  select count(*) into v_profile_count
+  from public.profiles
+  where id = v_id;
+
+  if v_profile_count <> 1 then
+    raise exception 'TEST FAILED: successful signup did not create exactly one public profile';
+  end if;
+
+  delete from auth.users where id = v_id;
+
+  if exists (select 1 from private.user_birth_dates where user_id = v_id)
+     or exists (select 1 from public.profiles where id = v_id) then
+    raise exception 'TEST FAILED: successful signup test cleanup left rows behind';
+  end if;
+end;
+$trigger_success$;

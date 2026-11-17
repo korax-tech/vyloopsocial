@@ -40,3 +40,9 @@ test('parses early four-digit years without JavaScript year remapping', () => {
   assert.deepEqual(parseBirthDateOnly('0001-01-01'), { year: 1, month: 1, day: 1 });
   assert.equal(parseBirthDateOnly('0000-01-01'), null);
 });
+
+test('strictly parses canonical ISO dates and rejects non-canonical input', () => {
+  assert.deepEqual(parseBirthDateOnly('2008-11-16'), { year: 2008, month: 11, day: 16 });
+  assert.equal(parseBirthDateOnly('2008-2-16'), null);
+  assert.equal(parseBirthDateOnly('2008-02-31'), null);
+});
